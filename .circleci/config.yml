@@ -9,9 +9,28 @@ jobs:
     <<: *defdocker
     steps:
       - checkout 
-      - run: npm build 
+      - run: npm install
+      - run: npm run lint
+  test:
+    <<: *defdocker
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test
+  analyse:
+    <<: *defdocker
+    steps:
+      - checkout
+      - run: npm audit
 
 workflows:
   build_test_analyse:
     jobs:
       - build
+      - test:
+          requires: 
+            - build
+      - analyse:
+          requires: 
+            - test
+      
