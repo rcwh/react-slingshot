@@ -1,0 +1,17 @@
+version: 2.1
+
+defdocker: &defdocker 
+  docker:
+    - image: circleci/node:13.8.0
+
+jobs:
+  build:
+    <<: *defdocker
+    steps:
+      - checkout 
+      - run: npm build 
+
+workflows:
+  build_test_analyse:
+    jobs:
+      - build
